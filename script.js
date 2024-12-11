@@ -1,46 +1,63 @@
 function addTodo() {
-    const todoInput = document.getElementById('todoInput');
-    const todoCategory = document.getElementById('todoCategory');
-    const day1List = document.getElementById('day1List');
-    const day2List = document.getElementById('day2List');
+    const input = document.getElementById('todo-input');
+    const todoText = input.value.trim();
 
-    const task = todoInput.value.trim();
-    if (task === '') {
-        alert('Please enter a task.');
-        return;
+    if (todoText === '') {
+      alert('Please enter a task.');
+      return;
     }
 
+    const list = document.getElementById('todo-list');
+
+    // Create a new list item
     const listItem = document.createElement('li');
-    listItem.textContent = task;
-    listItem.draggable = true;
-    listItem.id = `task-${Date.now()}`; // Unique ID
-    listItem.ondragstart = drag;
+    listItem.className = 'todo-item';
 
-    if (todoCategory.value === 'day1') {
-        day1List.appendChild(listItem);
-    } else {
-        day2List.appendChild(listItem);
-    }
+    // Add the task text as an editable input
+    const taskInput = document.createElement('input');
+    taskInput.type = 'text';
+    taskInput.value = todoText;
+    taskInput.readOnly = true;
 
-    todoInput.value = '';
-}
+    // Add buttons for edit, delete, and assign
+    const editButton = document.createElement('button');
+    editButton.textContent = 'Edit';
+    editButton.className = 'edit';
+    editButton.onclick = function () {
+      if (taskInput.readOnly) {
+        taskInput.readOnly = false;
+        editButton.textContent = 'Save';
+      } else {
+        taskInput.readOnly = true;
+        editButton.textContent = 'Edit';
+      }
+    };
 
-function allowDrop(event) {
-    event.preventDefault();
-    event.currentTarget.classList.add('over');
-}
+    const assignButton = document.createElement('button');
+    assignButton.textContent = 'Assign';
+    assignButton.className = 'assign';
+    assignButton.onclick = function () {
+      const nextDay = prompt('Assign to next day. Enter a note or date:');
+      if (nextDay) {
+        alert(`Task assigned for: ${nextDay}`);
+      }
+    };
 
-function drag(event) {
-    event.dataTransfer.setData('text', event.target.id);
-}
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.onclick = function () {
+      list.removeChild(listItem);
+    };
 
-function drop(event) {
-    event.preventDefault();
-    event.currentTarget.classList.remove('over');
-    const data = event.dataTransfer.getData('text');
-    const draggedItem = document.getElementById(data);
+    // Append elements to the list item
+    listItem.appendChild(taskInput);
+    listItem.appendChild(editButton);
+    listItem.appendChild(assignButton);
+    listItem.appendChild(deleteButton);
 
-    if (draggedItem && event.target.tagName === 'UL') {
-        event.target.appendChild(draggedItem);
-    }
-}
+    // Append the list item to the list
+    list.appendChild(listItem);
+
+    // Clear the input
+    input.value = '';
+  }
