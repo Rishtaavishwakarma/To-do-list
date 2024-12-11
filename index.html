@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>To-Do</h1>
+        <div class="form-group">
+            <input type="text" id="todoInput" placeholder="Enter your task">
+            <select id="todoCategory">
+                <option value="day1">Day 1</option>
+                <option value="day2">Day 2</option>
+            </select>
+            <button onclick="addTodo()">Add</button>
+        </div>
+
+        <div class="todo-list">
+            <div class="todo-category" id="day1" ondragover="allowDrop(event)" ondrop="drop(event)">
+                <h2>Day 1</h2>
+                <ul id="day1List"></ul>
+            </div>
+
+            <div class="todo-category" id="day2" ondragover="allowDrop(event)" ondrop="drop(event)">
+                <h2>Day 2</h2>
+                <ul id="day2List"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
